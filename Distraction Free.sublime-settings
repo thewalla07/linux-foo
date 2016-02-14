@@ -1,0 +1,18 @@
+{
+    //"line_numbers": true,
+
+    //"gutter": true,
+    
+    "translate_tabs_to_spaces": true,
+    "indent_to_bracket": true,
+    "caret_style": "smooth",
+    "move_to_limit_on_up_down": false,
+    "draw_indent_guides": true,
+    "indent_guide_options": ["draw_active"],
+    "auto_complete_commit_on_tab": true,
+    "copy_with_empty_selection": true,
+    "drag_text": false,
+    "highlight_modified_tabs": true,
+
+
+}
