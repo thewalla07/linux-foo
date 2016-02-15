@@ -1,0 +1,36 @@
+[START]
+
+// reverting changes made (a bad commit)
+
+t push -f origin HEAD^:master
+git remote add upstream https://github.com/CPSSD/MDFS
+t pull upstream master
+
+[END]
+
+/**********************/
+
+[START]
+
+// pushing a local branch to the remote branch
+
+git push <REMOTENAME> <BRANCHNAME>
+ex:
+git push origin encryption
+
+[END]
+
+/**********************/
+
+[START]
+
+// rename a branch
+
+git push <REMOTENAME> <LOCALBRANCHNAME>:<REMOTEBRANCHNAME>
+ex: LOCALBRANCHNAME is pushed to REMOTENAME, but is renamed to REMOTEBRANCHNAME
+
+[END]
+
+/**********************/
+
+
