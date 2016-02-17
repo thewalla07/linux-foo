@@ -33,4 +33,22 @@ ex: LOCALBRANCHNAME is pushed to REMOTENAME, but is renamed to REMOTEBRANCHNAME
 
 /**********************/
 
+[START]
 
+// set timout for requiring a password to push to git
+
+git config --global credential.helper 'cache --timeout=1800'
+
+[END]
+
+/**********************/
+
+[START]
+
+// 
+
+
+
+[END]
+
+/**********************/
