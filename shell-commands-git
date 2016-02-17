@@ -45,6 +45,33 @@ git config --global credential.helper 'cache --timeout=1800'
 
 [START]
 
+// merging an experimental or local branch into master
+
+git checkout master
+git pull origin master
+git merge test
+git push origin master
+
+- here you make sure there are no conflicts with the current build of
+- master when merged with your branch locally, before pushing it to the
+- origin version of master
+
+[END]
+
+/**********************/
+
+[START]
+
+// 
+
+
+
+[END]
+
+/**********************/
+
+[START]
+
 // 
 
 
