@@ -1,36 +1,41 @@
-sudo cd ~
+cd ~
 
-sudo git config --global user.email "thewalla07@gmail.com"
-sudo git config --global user.name "thewalla07"
-sudo git config credential.helper 'cache --timeout=3600'
+git config --global user.email "thewalla07@gmail.com"
+git config --global user.name "thewalla07"
+git config credential.helper 'cache --timeout=3600'
+
+sudo add-apt-repository ppa:zeal-developers/ppa
+sudo apt-get update
 
 sudo apt-get install vim zeal python3
 
 #setup short cmd prompt
-sudp mkdir -p ~/projects/gowork/src
-sudo mkdir -p ~/projects/gowork/pkg
-sudo mkdir -p ~/projects/gowork/bin
+mkdir -p ~/projects/gowork/src
+mkdir -p ~/projects/gowork/pkg
+mkdir -p ~/projects/gowork/bin
 
-sudo mv ~/linux-foo ~/projects/
+mv ~/linux-foo ~/projects/
 
-sudo cp ~/projects/linux-foo/.bashrc ~/.
-sudo cp ~/projects/linux-foo/.short.pwd.py ~/.
-sudo export PROMPT_COMMAND='PS1="$(python ~/.short.pwd.py)"'
+cp ~/projects/linux-foo/.bashrc ~/.
+cp ~/projects/linux-foo/.short.pwd.py ~/.
+export PROMPT_COMMAND='PS1="$(python ~/.short.pwd.py)"'
 
-sudo wget https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz
-sudo tar -C ~/projects/ -xzf ~/go1.go1.5.1.linux-amd64.tar.gz
-sudo rm ~/go1.5.1.linux-amd64.tar.gz
+wget https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz
+tar -C ~/projects/ -xzf ~/go1.go1.5.1.linux-amd64.tar.gz
+rm ~/go1.5.1.linux-amd64.tar.gz
 
 
-sudo wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2
-sudo tar -vxjf sublime_text_3_build_3083_x64.tar.bz2
+wget http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_3083_x64.tar.bz2
+tar -vxjf sublime_text_3_build_3083_x64.tar.bz2
 sudo mv sublime_text_3 /opt/
 sudo ln -s /opt/sublime_text_3/sublime_text /usr/bin/subl
-sudo rm ~/sublime_text_3_build_3083_x64.tar.bz2
+rm ~/sublime_text_3_build_3083_x64.tar.bz2
 
+mkdir -p ~/.config/sublime-text-3/Packages/User/
 
-sudo cp ~/projects/linux-foo/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/
-sudo cp ~/projects/linux-foo/Distraction\ Free.sublime-settings ~/.config/sublime-text-3/Packages/User/
+cp ~/projects/linux-foo/Preferences.sublime-settings ~/.config/sublime-text-3/Packages/User/
+
+cp ~/projects/linux-foo/Distraction\ Free.sublime-settings ~/.config/sublime-text-3/Packages/User/
 
 sudo pip install thefuck
 
