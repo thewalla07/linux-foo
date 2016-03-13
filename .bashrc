@@ -88,12 +88,12 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias cdp='cd ~/Projects/gowork/src/github.com/CPSSD/MDFS'
-alias cdl='cd ~/Projects/linux-foo'
+alias cdp='cd ~/projects/gowork/src/github.com/CPSSD/MDFS'
+alias cdl='cd ~/projects/linux-foo'
 
-export GOROOT=$HOME/Projects/go
+export GOROOT=$HOME/projects/go
 export PATH=$PATH:$GOROOT/bin
-export GOPATH=$HOME/Projects/gowork
+export GOPATH=$HOME/projects/gowork
 export PROMPT_COMMAND='PS1="$(python ~/.short.pwd.py)"'
 
 
