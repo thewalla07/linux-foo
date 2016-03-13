@@ -21,7 +21,7 @@ cp ~/projects/linux-foo/.short.pwd.py ~/.
 export PROMPT_COMMAND='PS1="$(python ~/.short.pwd.py)"'
 
 wget https://storage.googleapis.com/golang/go1.5.1.linux-amd64.tar.gz
-tar -C ~/projects/ -xzf ~/go1.go1.5.1.linux-amd64.tar.gz
+tar -C ~/projects/ -xzf ~/go1.5.1.linux-amd64.tar.gz
 rm ~/go1.5.1.linux-amd64.tar.gz
 
 
