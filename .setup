@@ -2,7 +2,7 @@ sudo cd ~
 
 sudo git config --global user.email "thewalla07@gmail.com"
 sudo git config --global user.name "thewalla07"
-
+sudo git config credential.helper 'cache --timeout=3600'
 
 sudo apt-get install vim zeal python3
 
