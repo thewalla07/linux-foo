@@ -7,7 +7,7 @@ git config credential.helper 'cache --timeout=3600'
 sudo add-apt-repository ppa:zeal-developers/ppa
 sudo apt-get update
 
-sudo apt-get install vim zeal python3
+sudo apt-get install vim zeal python3 python-pip
 
 #setup short cmd prompt
 mkdir -p ~/projects/gowork/src
