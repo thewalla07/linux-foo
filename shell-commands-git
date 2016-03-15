@@ -62,9 +62,11 @@ git push origin master
 
 [START]
 
-// 
+// get latest from master and merge into an old branch to work on 
 
-
+git checkout encryption 
+git fetch origin
+git merge origin/master 
 
 [END]
 

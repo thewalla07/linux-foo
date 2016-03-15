@@ -95,7 +95,9 @@ export GOROOT=$HOME/projects/go
 export PATH=$PATH:$GOROOT/bin
 export GOPATH=$HOME/projects/gowork
 export PROMPT_COMMAND='PS1="$(python ~/.short.pwd.py)"'
+export THEFUCK_REQUIRE_CONFIRMATION='false'
 
+eval $(thefuck --alias)
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
