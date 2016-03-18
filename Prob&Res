@@ -1,0 +1,17 @@
+While trying to decide how to represent the file tree on the metadata service server we had a couple of problems. At first we had thought to create a file tree with inode style data structures to represent files and directories. This would have allowed us to add our own custom functionality and restrictions as required for the project. Although there were complexities concerned with taking this approach. Issues arose in a few areas in particular:
+
+   - Concurrent access and changes from multiple users
+   - Storage of the file tree on disk
+
+With concurrent access, we would have had to deal with ensuring users could not make changes to directories at the same time, and make sure that there was only one true version of the file tree.
+
+As for storage of the file tree, we could not easily encode the custom data structure to store it in a file when the metadata service was started and stopped. This was due to the use of pointers to create the structure. Another possible issue would be if power loss occurred and the metadata service had not saved its state to disk. Any files which had been uploaded would essentially become untracked on storage nodes and be inaccessible for users.
+
+Resolution:
+
+In order to solve these major issues, we decided to make use of built in functions of Golang that make calls to OS level operations. This meant that the underlying OS could manage users trying to create or remove directories or files at the same time. We did not see a point in trying to solve an issue that had already been solved by the OS.
+
+Some added bonuses of this approach include:
+
+   - Ease of access for admins to the file tree during runtime or downtime of the service
+   - Duplication/backup of the file tree can be done simply by compressing the mdservice folder and using it somewhere else
