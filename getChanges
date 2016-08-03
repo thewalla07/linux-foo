@@ -1,0 +1,89 @@
+# check syntax
+if [[ $# != 2 ]]; then
+    echo "Incorrect syntax! Correct syntax is:"
+    echo "        $0 [num-of-changes] [tag-to-find]"
+    exit
+fi
+
+# vars
+start=false
+desc=false
+end=false
+isTagged=false
+tag="$2"
+html=""
+STR="$(p4 changes -l -m $1 | sed -e ':begin;$!N;s_\n\?\t*\(Change [^ ]* on [^ ]* by .*$\)_\n\nSECTIONEND\n\nSECTIONSTART\n\n\1\n\nSECTIONDESC\n\n_' -e '0,/SECTIONEND/{s/SECTIONEND//}')"
+
+# create start of html
+echo "<!DOCTYPE html>"
+echo "<html>"
+echo "<head>"
+echo "<title>Changes</title>"
+echo "<style>"
+echo "a {color:#666; text-decoration:initial;}"
+echo "a:hover {color:#ff9900;}"
+echo "a:active {color:#f66000;}"
+echo "table, td, th {border:1px solid grey; margin:auto; padding-left:5px; padding-right:10px;}"
+echo "table {border-collapse:collapse; border:2px solid black; width:800px; font-size:16px; font-family:monospace;}"
+echo "</style>"
+echo "</head>"
+echo "<body>"
+echo "<table>"
+echo "<tr><th>Changelist ID</th> <th>Date</th> <th>Changed by</th> <th>Change description contains tag: \"$2\"</td></tr>"
+
+# create table content
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    
+    # look for tags to denote current sections
+    if [[ $line == *"SECTIONSTART"* ]]; then
+        desc=false
+        start=true
+        continue
+    elif [[ $line == *"SECTIONDESC"* ]]; then
+        start=false
+        desc=true
+        continue
+    elif [[ $line == *"SECTIONEND"* ]]; then
+        start=false
+        desc=false
+        end=true
+    elif [[ $line == *"ENDOFFILE"* ]]; then
+        break
+    fi
+
+    # execute tag appropriate action
+    if [[ "$start" == true && $line == *"Change"* ]]; then
+        # if line has syntax of:
+        #     Change operand1 on operand2 by operand3
+        # then convert to a table row in html format:
+        #     <tr><td>operand1</td> <td>operand2</td> <td>operand3</td>
+        # NOTE: the remainder of the line is discarded, and the table row is not close off yet
+        html=$(sed 's_Change \([^ ]*\) on \([^ ]*\) by \([^ ]*\)\(.*\)_<tr><td><a target="\_blank" href="http://p4web.wdf.sap.corp:3202/@md=d\&cd=//\&c=DMp@/\1?ac=10">\1</a></td> <td>\2</td> <td>\3</td> _;P;D' <<< $line)
+        start=false
+
+    elif [[ "$desc" == true ]]; then
+        if [[ $line == *"$tag"* ]]; then
+            # apply the appropriate table row ending below
+            html=$html"<td>true</td></tr>"
+            html=$(sed 's_<tr>_<tr style="background-color:#d8d8d8;">_' <<< $html) 
+            desc=false
+            isTagged=true
+            echo $html
+        fi
+
+    elif [[ "$end" == true ]]; then
+        if [[ "$isTagged" == true ]]; then              
+            isTagged=false
+        else 
+            # apply the appropriate table row ending below
+            html=$html"<td>false</td></tr>"
+            echo $html
+        fi
+        end=false
+    fi
+done <<< "$STR"
+
+# complete the html page
+echo "</table>"
+echo "</body>"
+echo "</html>"
