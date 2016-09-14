@@ -27,6 +27,7 @@ set expandtab
 
 " Be smart when using tabs ;)
 set smarttab
+"set autoindent
 
 " 1 tab == 4 spaces
 set shiftwidth=2
@@ -50,5 +51,13 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 map <space> /
 map <c-space> ?
 
+" CTRL-Tab is next tab
+vnoremap <C-Tab> :<C-U>tabnext<CR>
+"inoremap <C-Tab> <C-\><C-N>:tabnext<CR>
+"cnoremap <C-Tab> <C-C>:tabnext<CR>
 
+" CTRL-SHIFT-Tab is previous tab
+vnoremap <C-S-Tab> :<C-U>tabprevious<CR>
+"inoremap <C-S-Tab> <C-\><C-N>:tabprevious<CR>
+"cnoremap <C-S-Tab> <C-C>:tabprevious<CR>
 
