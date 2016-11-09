@@ -1,0 +1,3 @@
+method return time=1476121422.711116 sender=:1.24 -> destination=:1.41 serial=291 reply_serial=2
+dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+method return time=1476121445.074435 sender=:1.24 -> destination=:1.42 serial=293 reply_serial=2
