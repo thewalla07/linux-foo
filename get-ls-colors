@@ -1,2 +1,0 @@
-sed 's_:_\n_g' <<< $LS_COLORS
-exit 0

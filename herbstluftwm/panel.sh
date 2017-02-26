@@ -120,7 +120,9 @@ hc pad $monitor $panel_height
         echo -n "^bg()^fg() ${windowtitle//^/^^}"
         # small adjustments
         # current_vol=$(awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master))
-        right="$separator^bg() $date $separator $(sed 's/Battery 0: [^ ]* \([^,]*\),.*/\1/' <<< $(acpi)) $separator"
+	# current_song=$(sed 's_.*artist.*variant[ ^]*array \[[ ^]*string "\([^"]*\)".*title.*variant[ ^]*string "\([^"]*\)".*_\2 - \1_g' <<<  $(tr '\n' ' ' <<< $(sed -e 's_string "http[^"]*"__g' <<< $(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'))))
+	current_batt=$(sed 's/Battery 0: [^ ]* \([^,]*\),.*/\1/' <<< $(acpi)) 
+	right="$separator^bg() $date $separator $current_batt $separator"
         right_text_only=$(echo -n "$right" | sed 's.\^[^(]*([^)]*)..g')
         # get width of right aligned text.. and add some space..
         width=$($textwidth "$font" "$right_text_only    ")
