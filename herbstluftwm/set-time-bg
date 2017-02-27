@@ -5,19 +5,19 @@
 
 cur_time=$(date +"%H")
 
-if [[ 0 -lt "$cur_time" && "$cur_time" -lt 6 ]]
+if [[ 0 -le "$cur_time" && "$cur_time" -le 6 ]]
 then
 	/home/thewalla07/bin/set-night-bg
-elif [[ 7 -lt "$cur_time" && "$cur_time" -lt 11 ]]
+elif [[ 7 -le "$cur_time" && "$cur_time" -le 11 ]]
 then
 	/home/thewalla07/bin/set-morning-bg
-elif [[ 12 -lt "$cur_time" && "$cur_time" -lt 16 ]]
+elif [[ 12 -le "$cur_time" && "$cur_time" -le 16 ]]
 then
 	/home/thewalla07/bin/set-noon-bg
-elif [[ 17 -lt "$cur_time" && "$cur_time" -lt 18 ]]
+elif [[ 17 -le "$cur_time" && "$cur_time" -le 18 ]]
 then
 	/home/thewalla07/bin/set-evening-bg
-elif [[ 19 -lt "$cur_time" && "$cur_time" -lt 23 ]]
+elif [[ 19 -le "$cur_time" && "$cur_time" -le 23 ]]
 then
 	/home/thewalla07/bin/set-night-bg
 fi
