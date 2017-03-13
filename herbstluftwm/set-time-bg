@@ -3,7 +3,7 @@
 # get the current time and set a background depending
 # on the result
 
-cur_time=$(date +"%H")
+cur_time=10#$(date +"%H")
 
 if [[ 0 -le "$cur_time" && "$cur_time" -le 6 ]]
 then
@@ -21,4 +21,3 @@ elif [[ 19 -le "$cur_time" && "$cur_time" -le 23 ]]
 then
 	/home/thewalla07/bin/set-night-bg
 fi
-
