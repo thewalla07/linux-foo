@@ -1,0 +1,47 @@
+-- require("neotest").setup({
+--     adapters = {
+--         require("neotest-jest")({
+--             jestCommand = "npx jest --runInBand",
+--             --   jestConfigFile = "custom.jest.config.ts",
+--             jestConfigFile = function(file)
+--                 if string.find(file, "/packages/") then
+--                     return string.match(file, "(.-/[^/]+/)src") .. "jest.config.ts"
+--                 end
+-- 
+--                 return vim.fn.getcwd() .. "/jest.config.ts"
+--             end,
+--             cwd = function(file)
+--                 if string.find(file, "/services/") then
+--                     return string.match(file, "(.-/[^/]+/)src")
+--                 end
+--                 return vim.fn.getcwd()
+--             end,
+--            -- cwd = function(path)
+--            --     return vim.fn.getcwd()
+--            -- end,
+--         }),
+--         require("neotest-plenary"),
+--         --         require("neotest-vim-test")({
+--         --             ignore_file_types = { "python", "vim", "lua" },
+--         --         }),
+--     },
+-- })
+-- require('neotest').setup({
+--     adapters = {
+--         require('neotest-jest')({
+--             jestCommand = "npm test --",
+--             jestConfigFile = "custom.jest.config.ts",
+--             env = { CI = true },
+--             cwd = function(path)
+--                 return vim.fn.getcwd()
+--             end,
+--         }),
+--         require("neotest-playwright").adapter({
+--             options = {
+--                 persist_project_selection = true,
+--                 enable_dynamic_test_discovery = true,
+--             }
+--         }),
+--     }
+--
+-- })
