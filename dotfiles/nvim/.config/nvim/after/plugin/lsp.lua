@@ -20,7 +20,7 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = { 'tsserver', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels' },
+  ensure_installed = { 'ts_ls', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls' },
   handlers = {
     lsp_zero.default_setup,
     lua_ls = function()
@@ -76,5 +76,5 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
-require('lspconfig').tsserver.setup({})
+require('lspconfig').ts_ls.setup({})
 require('lspconfig').eslint.setup({})
