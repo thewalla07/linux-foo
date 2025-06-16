@@ -18,6 +18,8 @@ return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+
+
     if packer_bootstrap then
         require('packer').sync()
     end
@@ -26,12 +28,42 @@ return require('packer').startup(function(use)
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
+    use { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true }
+    use {
+        "mason-org/mason.nvim",
+        opts = { ensure_installed = { "csharpier", "netcoredbg" } },
+    }
+    use {
+        "neovim/nvim-lspconfig",
+        opts = {
+            servers = {
+                omnisharp = {
+                    handlers = {
+                        ["textDocument/definition"] = function(...)
+                            return require("omnisharp_extended").handler(...)
+                        end,
+                    },
+                    keys = {
+                        {
+                            "gd",
+                            function()
+                                require("omnisharp_extended").telescope_lsp_definitions()
+                            end,
+                            desc = "Goto Definition",
+                        },
+                    },
+                    enable_roslyn_analyzers = true,
+                    organize_imports_on_format = true,
+                    enable_import_completion = true,
+                },
+            },
+        },
+    }
 
     use {
         'nmac427/guess-indent.nvim',
         config = function() require('guess-indent').setup {} end,
     }
-
 
     use({
         'rose-pine/neovim',
@@ -41,10 +73,15 @@ return require('packer').startup(function(use)
         end
     })
 
-    use(
+    use {
         'nvim-treesitter/nvim-treesitter',
-        { run = ':TSUpdate' }
-    )
+        opts = {
+            ensure_installed = { "c_sharp" }
+        },
+        {
+            run = ':TSUpdate',
+        },
+    }
     use 'prettier/vim-prettier'
 
     use 'nvim-treesitter/playground'
@@ -74,6 +111,18 @@ return require('packer').startup(function(use)
             { 'hrsh7th/cmp-nvim-lsp' },
             { 'L3MON4D3/LuaSnip' },
         }
+    }
+
+    use {
+        "Willem-J-an/adopure.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim",
+            -- "sindrets/diffview.nvim" -- Optionally required to open PR in diffview
+        },
+        config = function()
+            vim.g.adopure = {}
+        end,
     }
 
     -- use {

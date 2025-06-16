@@ -1,9 +1,12 @@
 local lsp_zero = require('lsp-zero')
-
 lsp_zero.on_attach(function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
 
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, opts)
+  vim.keymap.set('n', 'gi', function() vim.lsp.buf.implentation() end, opts)
+  -- vim.keymap.set('n', '<leader>ai', function() vim.map.buf.incoming_calls() end, opts)
+  -- vim.keymap.set('n', '<leader>ao', function() vim.lsp.buf.outgoing_calls() end, opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
   vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
   vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
@@ -20,9 +23,19 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = { 'tsserver', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels' },
+  ensure_installed = { 'ts_ls', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels' },
   handlers = {
     lsp_zero.default_setup,
+    gopls = function()
+      require('lspconfig').gopls.setup({
+        filetypes = {
+          "go", "gomod", "gowork", "gotmpl"
+        },
+        cmd = {
+          "gopls"
+        }
+      })
+    end,
     lua_ls = function()
       local lua_opts = lsp_zero.nvim_lua_ls()
       require('lspconfig').lua_ls.setup(lua_opts)
@@ -59,6 +72,25 @@ require('mason-lspconfig').setup({
   }
 })
 
+
+local function set_keymap(keymap, command)
+    vim.keymap.set({ "n", "v" }, keymap, function()
+        vim.cmd(":" .. command)
+    end, { desc = command })
+end
+set_keymap("<leader>alc", "AdoPure load context")
+set_keymap("<leader>alt", "AdoPure load threads")
+set_keymap("<leader>aoq", "AdoPure open quickfix")
+set_keymap("<leader>aot", "AdoPure open thread_picker")
+set_keymap("<leader>aon", "AdoPure open new_thread")
+set_keymap("<leader>aoe", "AdoPure open existing_thread")
+set_keymap("<leader>asc", "AdoPure submit comment")
+set_keymap("<leader>asv", "AdoPure submit vote")
+set_keymap("<leader>ast", "AdoPure submit thread_status")
+set_keymap("<leader>asd", "AdoPure submit delete_comment")
+set_keymap("<leader>ase", "AdoPure submit edit_comment")
+
+
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
@@ -76,5 +108,5 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
-require('lspconfig').tsserver.setup({})
+require('lspconfig').ts_ls.setup({})
 require('lspconfig').eslint.setup({})
