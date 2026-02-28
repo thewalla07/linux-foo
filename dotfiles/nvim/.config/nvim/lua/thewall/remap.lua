@@ -71,15 +71,15 @@ end)
 -- vim.keymap.set("n", "<leader>tr", function()
 --     require("neotest").run.run()
 -- end)
--- 
+--
 -- vim.keymap.set("n", "<leader>tf", function()
 --     require("neotest").run.run(vim.fn.expand("%"))
 -- end)
--- 
+--
 -- vim.keymap.set("n", "<leader>ts", function()
 --     require("neotest").run.stop()
 -- end)
--- 
+--
 -- vim.keymap.set("n", "<leader>to", function()
 --     require("neotest").run.output_panel()
 -- end)
@@ -124,3 +124,27 @@ vim.api.nvim_create_autocmd("FileType", {
 --   group = augroup,
 --   command = "compiler tsc | setlocal makeprg=npx\\ tsc\\ --build\\ tsconfig.build.json\\ --pretty\\ false",
 -- })
+--
+
+-- keybinds for 99
+
+-- take extra note that i have visual selection only in v mode
+-- technically whatever your last visual selection is, will be used
+-- so i have this set to visual mode so i dont screw up and use an
+-- old visual selection
+--
+-- likely ill add a mode check and assert on required visual mode
+-- so just prepare for it now
+local _99 = require("99")
+vim.keymap.set("v", "<leader>9v", function()
+    _99.visual()
+end)
+
+--- if you have a request you dont want to make any changes, just cancel it
+vim.keymap.set("n", "<leader>9x", function()
+    _99.stop_all_requests()
+end)
+
+vim.keymap.set("n", "<leader>9s", function()
+    _99.search()
+end)

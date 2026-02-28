@@ -24,9 +24,11 @@ return require('packer').startup(function(use)
         require('packer').sync()
     end
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.5',
-        -- or                            , branch = '0.1.x',
-        requires = { { 'nvim-lua/plenary.nvim' } }
+        'nvim-telescope/telescope.nvim', version = '*',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        }
     }
     use { "Hoffs/omnisharp-extended-lsp.nvim" }
     use {
@@ -51,19 +53,10 @@ return require('packer').startup(function(use)
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
-        config = function()
-            require('nvim-treesitter.configs').setup({
-                ensure_installed = { "c_sharp", "lua", "javascript", "typescript" },
-                auto_install = true,
-                highlight = {
-                    enable = true,
-                },
-            })
-        end,
     }
     use 'prettier/vim-prettier'
 
-    use 'nvim-treesitter/playground'
+    --    use 'nvim-treesitter/playground'
     use {
         'theprimeagen/harpoon',
         branch = 'harpoon2',
@@ -139,4 +132,8 @@ return require('packer').startup(function(use)
     --            'thenbe/neotest-playwright',
     --        }
     --    }
+    --
+    use {
+        "ThePrimeagen/99",
+    }
 end)

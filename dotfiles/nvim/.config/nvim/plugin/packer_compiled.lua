@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1744318430/share/lua/5.1/?.lua;/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1744318430/share/lua/5.1/?/init.lua;/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1744318430/lib/luarocks/rocks-5.1/?.lua;/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1744318430/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1744318430/lib/lua/5.1/?.so"
+local package_path_str = "/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1771967821/share/lua/5.1/?.lua;/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1771967821/share/lua/5.1/?/init.lua;/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1771967821/lib/luarocks/rocks-5.1/?.lua;/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1771967821/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/michaelwall/.cache/nvim/packer_hererocks/2.1.1771967821/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -74,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["99"] = {
+    loaded = true,
+    path = "/Users/michaelwall/.local/share/nvim/site/pack/packer/start/99",
+    url = "https://github.com/ThePrimeagen/99"
+  },
   LuaSnip = {
     loaded = true,
     path = "/Users/michaelwall/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -127,7 +132,6 @@ _G.packer_plugins = {
     url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-treesitter"] = {
-    config = { "\27LJ\2\nÓ\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\14highlight\1\0\1\venable\2\21ensure_installed\1\0\3\17auto_install\2\21ensure_installed\0\14highlight\0\1\5\0\0\fc_sharp\blua\15javascript\15typescript\nsetup\28nvim-treesitter.configs\frequire\0" },
     loaded = true,
     path = "/Users/michaelwall/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
@@ -146,11 +150,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/michaelwall/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
-  },
-  playground = {
-    loaded = true,
-    path = "/Users/michaelwall/.local/share/nvim/site/pack/packer/start/playground",
-    url = "https://github.com/nvim-treesitter/playground"
   },
   ["plenary.nvim"] = {
     loaded = true,
@@ -191,18 +190,14 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-try_loadstring("\27LJ\2\nÓ\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\14highlight\1\0\1\venable\2\21ensure_installed\1\0\3\17auto_install\2\21ensure_installed\0\14highlight\0\1\5\0\0\fc_sharp\blua\15javascript\15typescript\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
-time([[Config for nvim-treesitter]], false)
--- Config for: rose-pine
-time([[Config for rose-pine]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
-time([[Config for rose-pine]], false)
 -- Config for: guess-indent.nvim
 time([[Config for guess-indent.nvim]], true)
 try_loadstring("\27LJ\2\n>\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\17guess-indent\frequire\0", "config", "guess-indent.nvim")
 time([[Config for guess-indent.nvim]], false)
+-- Config for: rose-pine
+time([[Config for rose-pine]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
+time([[Config for rose-pine]], false)
 -- Config for: adopure.nvim
 time([[Config for adopure.nvim]], true)
 try_loadstring("\27LJ\2\n)\0\0\2\0\3\0\0056\0\0\0009\0\1\0004\1\0\0=\1\2\0K\0\1\0\fadopure\6g\bvim\0", "config", "adopure.nvim")

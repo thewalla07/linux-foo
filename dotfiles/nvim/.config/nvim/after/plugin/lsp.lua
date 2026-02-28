@@ -56,68 +56,6 @@ end)
 require('mason').setup({})
 require('mason-lspconfig').setup({
   ensure_installed = { 'ts_ls', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels', 'omnisharp' },
-  handlers = {
-    lsp_zero.default_setup,
-    omnisharp = function()
-      require('lspconfig').omnisharp.setup({
-        cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-        enable_roslyn_analyzers = true,
-        organize_imports_on_format = true,
-        enable_import_completion = true,
-        cmd_env = {
-          DOTNET_ROOT = "/opt/homebrew/opt/dotnet@8/libexec"
-        },
-        handlers = {
-          ["textDocument/definition"] = function(...)
-            return require("omnisharp_extended").handler(...)
-          end,
-        },
-      })
-    end,
-    gopls = function()
-      require('lspconfig').gopls.setup({
-        filetypes = {
-          "go", "gomod", "gowork", "gotmpl"
-        },
-        cmd = {
-          "gopls"
-        }
-      })
-    end,
-    lua_ls = function()
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
-    end,
-    ansiblels = function()
-      require('lspconfig').ansiblels.setup({
-        filetypes = {
-          "yaml",
-        },
-        settings = {
-          ansible = {
-            ansible = {
-              path = "ansible",
-              useFullyQualifiedCollectionNames = true
-            },
-            ansibleLint = {
-              enabled = true,
-              path = "ansible-lint"
-            },
-            executionEnvironment = {
-              enabled = false
-            },
-            python = {
-              interpreterPath = "python"
-            },
-            completion = {
-              provideRedirectModules = true,
-              provideModuleOptionAliases = true
-            }
-          },
-        },
-      })
-    end
-  }
 })
 
 
@@ -156,5 +94,3 @@ cmp.setup({
     ['<C-Space>'] = cmp.mapping.complete(),
   }),
 })
-require('lspconfig').ts_ls.setup({})
-require('lspconfig').eslint.setup({})
