@@ -28,37 +28,12 @@ return require('packer').startup(function(use)
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
-    use { "Hoffs/omnisharp-extended-lsp.nvim", lazy = true }
+    use { "Hoffs/omnisharp-extended-lsp.nvim" }
     use {
         "mason-org/mason.nvim",
         opts = { ensure_installed = { "csharpier", "netcoredbg" } },
     }
-    use {
-        "neovim/nvim-lspconfig",
-        opts = {
-            servers = {
-                omnisharp = {
-                    handlers = {
-                        ["textDocument/definition"] = function(...)
-                            return require("omnisharp_extended").handler(...)
-                        end,
-                    },
-                    keys = {
-                        {
-                            "gd",
-                            function()
-                                require("omnisharp_extended").telescope_lsp_definitions()
-                            end,
-                            desc = "Goto Definition",
-                        },
-                    },
-                    enable_roslyn_analyzers = true,
-                    organize_imports_on_format = true,
-                    enable_import_completion = true,
-                },
-            },
-        },
-    }
+    -- nvim-lspconfig is handled by lsp-zero setup
 
     use {
         'nmac427/guess-indent.nvim',
@@ -75,12 +50,16 @@ return require('packer').startup(function(use)
 
     use {
         'nvim-treesitter/nvim-treesitter',
-        opts = {
-            ensure_installed = { "c_sharp" }
-        },
-        {
-            run = ':TSUpdate',
-        },
+        run = ':TSUpdate',
+        config = function()
+            require('nvim-treesitter.configs').setup({
+                ensure_installed = { "c_sharp", "lua", "javascript", "typescript" },
+                auto_install = true,
+                highlight = {
+                    enable = true,
+                },
+            })
+        end,
     }
     use 'prettier/vim-prettier'
 

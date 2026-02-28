@@ -2,7 +2,14 @@ local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
   local opts = { buffer = bufnr, remap = false }
 
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  -- Use enhanced omnisharp definition for C# files, regular LSP for others
+  vim.keymap.set("n", "gd", function()
+    if vim.bo.filetype == "cs" then
+      require("omnisharp_extended").telescope_lsp_definitions()
+    else
+      vim.lsp.buf.definition()
+    end
+  end, opts)
   vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, opts)
   vim.keymap.set('n', 'gi', function() vim.lsp.buf.implentation() end, opts)
   -- vim.keymap.set('n', '<leader>ai', function() vim.map.buf.incoming_calls() end, opts)
@@ -15,17 +22,58 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts)
   vim.keymap.set("n", "[[", function() vim.diagnostic.goto_prev() end, opts)
   vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-  vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-  vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.references() end, opts)
+
+  local function filterDuplicates(array)
+    local uniqueArray = {}
+    for _, tableA in ipairs(array) do
+      local isDuplicate = false
+      for _, tableB in ipairs(uniqueArray) do
+        if vim.deep_equal(tableA, tableB) then
+          isDuplicate = true
+          break
+        end
+      end
+      if not isDuplicate then
+        table.insert(uniqueArray, tableA)
+      end
+    end
+    return uniqueArray
+  end
+
+  local function on_list(options)
+    options.items = filterDuplicates(options.items)
+    vim.fn.setqflist({}, ' ', options)
+    vim.cmd('botright copen')
+  end
+
+  -- dedupe Usage
+  vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
+  -- vim.keymap.set("n", "<leader>r", function() vim.lsp.buf.references() end, opts)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  ensure_installed = { 'ts_ls', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels' },
+  ensure_installed = { 'ts_ls', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels', 'omnisharp' },
   handlers = {
     lsp_zero.default_setup,
+    omnisharp = function()
+      require('lspconfig').omnisharp.setup({
+        cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+        enable_roslyn_analyzers = true,
+        organize_imports_on_format = true,
+        enable_import_completion = true,
+        cmd_env = {
+          DOTNET_ROOT = "/opt/homebrew/opt/dotnet@8/libexec"
+        },
+        handlers = {
+          ["textDocument/definition"] = function(...)
+            return require("omnisharp_extended").handler(...)
+          end,
+        },
+      })
+    end,
     gopls = function()
       require('lspconfig').gopls.setup({
         filetypes = {
@@ -74,9 +122,9 @@ require('mason-lspconfig').setup({
 
 
 local function set_keymap(keymap, command)
-    vim.keymap.set({ "n", "v" }, keymap, function()
-        vim.cmd(":" .. command)
-    end, { desc = command })
+  vim.keymap.set({ "n", "v" }, keymap, function()
+    vim.cmd(":" .. command)
+  end, { desc = command })
 end
 set_keymap("<leader>alc", "AdoPure load context")
 set_keymap("<leader>alt", "AdoPure load threads")
