@@ -53,6 +53,7 @@ return require('packer').startup(function(use)
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
+        build = ':TSUpdate',
     }
     use 'prettier/vim-prettier'
 
@@ -135,5 +136,9 @@ return require('packer').startup(function(use)
     --
     use {
         "ThePrimeagen/99",
+    }
+
+    use {
+        'mhinz/vim-signify'
     }
 end)

@@ -148,3 +148,18 @@ end)
 vim.keymap.set("n", "<leader>9s", function()
     _99.search()
 end)
+
+-- window resizing: hold Alt (Option) + hjkl to resize (normal mode only).
+-- because of how keys are reported, this has been change to the actual char
+-- which is output from holding Opt+hjkl on macos
+-- TODO: find a way to fix this and the remappings to go to older quickfix lists
+
+-- not working currently
+vim.keymap.set('n', '<M-k>', ':colder<CR>');
+vim.keymap.set('n', '<M-j>', ':cnewer<CR>');
+
+vim.keymap.set("n", "˙", "<C-w><", { desc = "Window narrower" })
+vim.keymap.set("n", "∆", "<C-w>+", { desc = "Window taller" })
+vim.keymap.set("n", "˚", "<C-w>-", { desc = "Window shorter" })
+vim.keymap.set("n", "¬", "<C-w>>", { desc = "Window wider" })
+
