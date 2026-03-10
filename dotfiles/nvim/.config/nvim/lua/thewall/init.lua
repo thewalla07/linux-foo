@@ -1,4 +1,4 @@
-require("thewall.packer")
+require("thewall.lazy")
 require("thewall.remap")
 require("thewall.set")
 

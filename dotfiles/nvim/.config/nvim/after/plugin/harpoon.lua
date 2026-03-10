@@ -10,8 +10,8 @@ harpoon:setup({
 -- REQUIRED
 
 vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
-vim.keymap.set('n', '<leader>ps', function()
-    builtin.grep_string({ search = vim.fn.input("Grep B > "), vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-u', '--hidden', '--glob=!node_modules/', '--glob=!coverage/', '--glob=!dist/' } });
+vim.keymap.set('n', '<leader>pb', function()
+    require('telescope.builtin').grep_string({ search = vim.fn.input("Grep B > "), vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-u', '--hidden', '--glob=!node_modules/', '--glob=!coverage/', '--glob=!dist/' } });
 end)
 vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
