@@ -12,6 +12,8 @@
 - [ ] persistence.nvim - auto-save/restore sessions
 - [ ] noice.nvim - fancy cmdline/messages/popups UI
 - [ ] snacks.nvim - dashboard, indent guides, bigfile handling
+- [ ] file explorer: investigate alternative to netrw (e.g., nvim-tree, oil.nvim, mini.files)
+- [ ] neotest: test runner integration to run tests and see results inside nvim
 
 ## Follow-ups
 - [ ] colorscheme: flash of default colorscheme visible during lazy.nvim plugin updates on startup before rose-pine loads

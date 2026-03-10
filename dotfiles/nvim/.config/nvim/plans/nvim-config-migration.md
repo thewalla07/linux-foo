@@ -54,6 +54,8 @@ ThePrimeagen-style pattern:
 - [ ] persistence.nvim -- auto-save/restore sessions
 - [ ] noice.nvim -- fancy cmdline/messages/popups UI
 - [ ] snacks.nvim -- dashboard, indent guides, bigfile handling
+- [ ] file explorer alternative (nvim-tree, oil.nvim, mini.files)
+- [ ] neotest -- test runner integration to run tests and see results inside nvim
 
 ---
 
