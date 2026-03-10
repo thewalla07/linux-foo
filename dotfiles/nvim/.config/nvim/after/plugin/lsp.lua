@@ -58,6 +58,14 @@ require('mason-lspconfig').setup({
   ensure_installed = { 'ts_ls', 'rust_analyzer', 'eslint', 'gopls', 'lua_ls', 'ansiblels', 'omnisharp' },
 })
 
+require('lspconfig').lua_ls.setup({
+  settings = {
+    Lua = {
+      diagnostics = { globals = { 'vim' } },
+    },
+  },
+})
+
 
 local function set_keymap(keymap, command)
   vim.keymap.set({ "n", "v" }, keymap, function()
@@ -82,6 +90,7 @@ local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
   sources = {
+    { name = 'lazydev', group_index = 0 },
     { name = 'path' },
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
