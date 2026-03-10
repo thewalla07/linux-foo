@@ -53,9 +53,43 @@ require("lazy").setup({
     build = ":TSUpdate",
   },
   { "nvim-treesitter/nvim-treesitter-context" },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+  },
 
   -- Formatting
-  { "prettier/vim-prettier" },
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      { "<leader>f", function() require("conform").format() end, desc = "Format buffer" },
+    },
+    opts = {
+      formatters_by_ft = {
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        css = { "prettier" },
+        html = { "prettier" },
+        json = { "prettier" },
+        yaml = { "prettier" },
+        markdown = { "prettier" },
+        lua = { "stylua" },
+        sh = { "shfmt" },
+      },
+      default_format_opts = {
+        timeout_ms = 3000,
+        lsp_format = "fallback",
+      },
+      format_on_save = {
+        timeout_ms = 3000,
+        lsp_format = "fallback",
+      },
+    },
+  },
 
   -- File navigation
   {
@@ -72,7 +106,7 @@ require("lazy").setup({
 
   -- Git
   { "tpope/vim-fugitive" },
-  { "mhinz/vim-signify" },
+  { "lewis6991/gitsigns.nvim" },
 
   -- LSP + completion
   {
@@ -84,12 +118,31 @@ require("lazy").setup({
       { "neovim/nvim-lspconfig" },
       { "hrsh7th/nvim-cmp" },
       { "hrsh7th/cmp-nvim-lsp" },
+      { "hrsh7th/cmp-buffer" },
       { "L3MON4D3/LuaSnip" },
     },
   },
   {
     "mason-org/mason.nvim",
-    opts = { ensure_installed = { "csharpier", "netcoredbg" } },
+    opts = {
+      ensure_installed = {
+        "prettier",
+        "stylua",
+        "shfmt",
+        "csharpier",
+        "netcoredbg",
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup(opts)
+      local mr = require("mason-registry")
+      for _, tool in ipairs(opts.ensure_installed or {}) do
+        local p = mr.get_package(tool)
+        if not p:is_installed() then
+          p:install()
+        end
+      end
+    end,
   },
 
   -- Azure DevOps PR review
@@ -103,6 +156,9 @@ require("lazy").setup({
       vim.g.adopure = {}
     end,
   },
+
+  -- Keymap discovery
+  { "folke/which-key.nvim", event = "VeryLazy" },
 
   -- Distraction-free editing
   { "folke/zen-mode.nvim", opts = {} },

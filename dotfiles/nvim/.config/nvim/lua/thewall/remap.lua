@@ -37,21 +37,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", function()
-    -- local filetype = vim.bo.filetype
-    -- local formatter =
-    -- {
-    --     ["typescript"] = "<cmd>silent !prettier --stdin-filepath %<CR>",
-    -- }
-    -- local formatFunc = formatter[filetype]
-    -- if (formatFunc) then
-    --     print("Format", filetype, "with own formatter")
-    --     return formatFunc
-    -- else
-    --     print("Format", filetype, "with builtin")
-    return vim.lsp.buf.format()
-    -- end
-end)
+-- <leader>f is defined in lazy.lua conform spec (lazy-loaded)
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
