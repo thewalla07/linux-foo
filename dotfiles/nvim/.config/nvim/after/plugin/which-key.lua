@@ -12,4 +12,5 @@ wk.add({
   { "<leader>9", group = "99 AI" },
   { "<leader>g", group = "git" },
   { "<leader>a", group = "adopure/harpoon" },
+  { "<leader>b", group = "buffers" },
 })

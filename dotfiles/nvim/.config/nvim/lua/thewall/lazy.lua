@@ -39,15 +39,30 @@ require("lazy").setup({
 		end,
 	},
 
-	-- Colorscheme
-	{
-		"rose-pine/neovim",
-		name = "rose-pine",
-		priority = 1000,
-		config = function()
-			vim.cmd("colorscheme rose-pine")
-		end,
-	},
+  -- Colorscheme
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    priority = 1000,
+    config = function()
+      vim.cmd("colorscheme rose-pine")
+    end,
+  },
+
+  -- Status line
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    event = "VeryLazy",
+  },
+
+  -- Buffer/tab bar
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    event = "VeryLazy",
+  },
 
 	-- Treesitter
 	{
