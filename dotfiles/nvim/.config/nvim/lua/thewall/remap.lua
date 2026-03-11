@@ -1,5 +1,11 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", function()
+    if vim.bo.filetype == "netrw" then
+        vim.cmd("bwipeout")
+    else
+        vim.cmd.Ex()
+    end
+end)
 
 -- fix the # symbol for mac os
 vim.keymap.set('i', '<M-3>', '#', { noremap = true, silent = true })
@@ -49,9 +55,7 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.config/nvim/lua/thewall/lazy.lua<CR>");
 
-vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
-end)
+vim.keymap.set("n", "<leader><leader>", "<cmd>source ~/.config/nvim/init.lua<cr>", { desc = "Reload config" })
 
 -- start neotest
 -- vim.keymap.set("n", "<leader>tr", function()
