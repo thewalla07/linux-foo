@@ -7,9 +7,11 @@ require("bufferline").setup({
     separator_style = "thin",
     offsets = {
       { filetype = "undotree", text = "Undo Tree", text_align = "center" },
+      { filetype = "fugitive", text = "Git", text_align = "center" },
     },
     custom_filter = function(buf_number)
-      if vim.bo[buf_number].filetype == "netrw" then
+      local dominated_fts = { netrw = true, fugitive = true, git = true }
+      if dominated_fts[vim.bo[buf_number].filetype] then
         return false
       end
       return true
