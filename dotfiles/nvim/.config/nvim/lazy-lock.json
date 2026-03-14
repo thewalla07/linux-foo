@@ -7,6 +7,7 @@
   "cmp-nvim-lsp": { "branch": "main", "commit": "cbc7b02bb99fae35cb42f514762b89b5126651ef" },
   "conform.nvim": { "branch": "master", "commit": "086a40dc7ed8242c03be9f47fbcee68699cc2395" },
   "gitsigns.nvim": { "branch": "main", "commit": "7c4faa3540d0781a28588cafbd4dd187a28ac6e3" },
+  "grug-far.nvim": { "branch": "main", "commit": "dc4684e163971bb1f5bfb93fbd4bb3e892bf9b15" },
   "guess-indent.nvim": { "branch": "main", "commit": "84a4987ff36798c2fc1169cbaff67960aed9776f" },
   "harpoon": { "branch": "harpoon2", "commit": "87b1a3506211538f460786c23f98ec63ad9af4e5" },
   "hererocks": { "branch": "master", "commit": "3db37265c3839cbd4d27fc73f92fa7b58bc3a76f" },

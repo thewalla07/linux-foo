@@ -40,6 +40,7 @@ nvim/
 | guess-indent           | auto-detect indentation                  |
 | nvim-lint              | async linting                            |
 | todo-comments          | TODO/FIXME/HACK highlighting             |
+| grug-far               | project-wide search and replace          |
 
 ## key shortcuts
 
@@ -110,11 +111,20 @@ leader key: `<space>`
 | `<leader>hd` / `<leader>hD` | diff this       |
 | `ih` (operator)             | select hunk     |
 
+### search and replace (grug-far)
+
+| key                    | action                |
+| ---------------------- | --------------------- |
+| `<leader>sr`           | search and replace    |
+| `<leader>sw`           | search current word   |
+| `<leader>sf`           | search in current file|
+| `<leader>sr` (visual)  | search selection      |
+
 ### git (fugitive)
 
-| key          | action     |
-| ------------ | ---------- |
-| `<leader>gs` | Git status |
+| key          | action            |
+| ------------ | ----------------- |
+| `<leader>gs` | toggle Git status |
 
 ### formatting
 

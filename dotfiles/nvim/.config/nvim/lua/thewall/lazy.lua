@@ -131,6 +131,18 @@ require("lazy").setup({
 	{ "tpope/vim-fugitive" },
 	{ "lewis6991/gitsigns.nvim" },
 
+	-- Project-wide search and replace
+	{
+		"MagicDuck/grug-far.nvim",
+		cmd = "GrugFar",
+		keys = {
+			{ "<leader>sr", desc = "Search and replace" },
+			{ "<leader>sw", desc = "Search current word" },
+			{ "<leader>sf", desc = "Search in current file" },
+			{ "<leader>sr", mode = "v", desc = "Search selection" },
+		},
+	},
+
 	-- LSP + completion
 	{
 		"VonHeikemen/lsp-zero.nvim",
