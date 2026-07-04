@@ -1,0 +1,19 @@
+font-family = "Geist Mono"
+font-family = "Monaco"
+font-thicken = true
+font-size = 14
+font-thicken-strength = 64
+#font-weight = 1.00
+# window-decoration = false
+background-opacity = 1.00
+background=#1a1c1c
+# initial-command=$HOME/.config/ghostty/start-tmux.sh
+confirm-close-surface=true
+
+keybind = ctrl+shift+w=close_window
+keybind = super+k=unbind
+keybind = super+arrow_left=previous_tab
+keybind = super+arrow_right=next_tab
+
+scrollback-limit =   10000000000
+# scrollback-limit = 10000000
