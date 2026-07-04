@@ -1,0 +1,6 @@
+#!/bin/bash
+set -u
+shopt -s nullglob
+for dir in */; do
+	ln -sfn "$(realpath $dir)" "$HOME/.config/$(basename $dir)"
+done

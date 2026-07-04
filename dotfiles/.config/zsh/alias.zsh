@@ -1,3 +1,4 @@
+alias la="ls -a"
 alias ll="ls -al"
 alias lar="ls -alR"
 # main code directory
