@@ -17,6 +17,33 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Insert an "AUTHOR:" comment on a new line below (or above) the cursor line and
+-- drop into insert mode. Uses the buffer's commentstring so it works per-filetype.
+-- AUTHOR: is my voice; Claude replies in-thread with CLAUDE: comments beneath.
+local function author_comment(above)
+	local cs = vim.bo.commentstring
+	if cs == "" or not cs:find("%s", 1, true) then
+		cs = "// %s"
+	end
+	local prefix, suffix = cs:match("^(.*)%%s(.*)$")
+	prefix = vim.trim(prefix) .. " "
+	suffix = vim.trim(suffix) ~= "" and (" " .. vim.trim(suffix)) or ""
+
+	local row = vim.api.nvim_win_get_cursor(0)[1]
+	local cur = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1] or ""
+	local body = cur:match("^%s*") .. prefix .. "AUTHOR: "
+	local at = above and row - 1 or row
+
+	vim.api.nvim_buf_set_lines(0, at, at, false, { body .. suffix })
+	if suffix == "" then
+		vim.api.nvim_win_set_cursor(0, { at + 1, 0 })
+		vim.cmd("startinsert!") -- like `A`: append at end of line
+	else
+		vim.api.nvim_win_set_cursor(0, { at + 1, #body })
+		vim.cmd("startinsert") -- park the cursor before the closing delimiter
+	end
+end
+
 require("lazy").setup({
 	-- Fuzzy finder
 	{
@@ -204,7 +231,20 @@ require("lazy").setup({
 			{ "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix list" },
 			{ "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Location list" },
 		},
-		opts = {},
+		opts = {
+			modes = {
+				-- Distinct mode name so it gets its own view; reusing "todo" with a
+				-- different filter arg just re-focuses the existing unfiltered list.
+				todo_claude = {
+					mode = "todo",
+					filter = { tag = "CLAUDE" },
+				},
+				todo_author = {
+					mode = "todo",
+					filter = { tag = "AUTHOR" },
+				},
+			},
+		},
 	},
 
 	-- Extended text objects (quotes, brackets, tags, etc.)
@@ -226,7 +266,25 @@ require("lazy").setup({
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		event = { "BufReadPre", "BufNewFile" },
-		opts = {},
+		opts = {
+			keywords = {
+				-- Claude's replies, threaded below an AUTHOR: comment.
+				CLAUDE = { icon = "󰚩 ", color = "claude" },
+				-- My voice: questions/requests for Claude, e.g. "// AUTHOR: why is this nil here?"
+				AUTHOR = { icon = "󰠗 ", color = "author" },
+			},
+			colors = {
+				claude = { "#D97757" }, -- Claude brand orange
+				author = { "#C4A7E7" }, -- pastel purple (rose-pine iris)
+			},
+		},
+		keys = {
+			{ "<leader>ta", "<cmd>TodoTelescope keywords=AUTHOR<cr>", desc = "Find AUTHOR comments" },
+			{ "<leader>tc", "<cmd>TodoTelescope keywords=CLAUDE<cr>", desc = "Find CLAUDE comments" },
+			{ "<leader>tm", "<cmd>TodoTelescope<cr>", desc = "Find all todo comments" },
+			{ "<leader>tt", function() author_comment(false) end, desc = "AUTHOR comment (line below)" },
+			{ "<leader>tT", function() author_comment(true) end, desc = "AUTHOR comment (line above)" },
+		},
 	},
 
 	-- Lua LSP enhancement for Neovim config editing (must load before lua_ls)
