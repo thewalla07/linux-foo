@@ -66,30 +66,30 @@ require("lazy").setup({
 		end,
 	},
 
-  -- Colorscheme
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    priority = 1000,
-    config = function()
-      vim.cmd("colorscheme rose-pine")
-    end,
-  },
+	-- Colorscheme
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		priority = 1000,
+		config = function()
+			vim.cmd("colorscheme rose-pine")
+		end,
+	},
 
-  -- Status line
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "VeryLazy",
-  },
+	-- Status line
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		event = "VeryLazy",
+	},
 
-  -- Buffer/tab bar
-  {
-    "akinsho/bufferline.nvim",
-    version = "*",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    event = "VeryLazy",
-  },
+	-- Buffer/tab bar
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		event = "VeryLazy",
+	},
 
 	-- Treesitter
 	{
@@ -303,4 +303,15 @@ require("lazy").setup({
 
 	-- AI-assisted coding
 	{ "ThePrimeagen/99" },
+
+	-- Flutter tools
+	{
+		"nvim-flutter/flutter-tools.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			-- "stevearc/dressing.nvim", -- optional for vim.ui.select
+		},
+		config = true,
+	},
 })
