@@ -1,9 +1,10 @@
-font-family = "Geist Mono"
-font-family = "Monaco"
+# font-family = "Geist Mono"
+# font-family = "Monaco"
+font-family = "Liga SFMono Nerd Font"
 font-thicken = true
 font-size = 14
-font-thicken-strength = 64
-#font-weight = 1.00
+# font-thicken-strength = 64
+# font-weight = 1.00
 # window-decoration = false
 background-opacity = 1.00
 background=#1a1c1c
