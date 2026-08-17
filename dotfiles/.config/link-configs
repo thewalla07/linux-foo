@@ -1,6 +1,44 @@
 #!/bin/bash
 set -u
 shopt -s nullglob
+
+cd "$(dirname "$0")"
+
+# ln -sfn nests the link INSIDE an existing real directory instead of
+# replacing it, so refuse to link over one — move it aside and re-run.
+link_dir() {
+	local src="$1" dst="$2"
+	if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+		echo "skip: $dst exists and is not a symlink (move it aside, then re-run)" >&2
+		return
+	fi
+	ln -sfn "$src" "$dst"
+}
+
+# Generic: every directory here becomes ~/.config/<name> — except claude/,
+# which Claude Code doesn't read from ~/.config (it reads ~/.claude).
 for dir in */; do
-	ln -sfn "$(realpath $dir)" "$HOME/.config/$(basename $dir)"
+	[ "$dir" = "claude/" ] && continue
+	link_dir "$(realpath "$dir")" "$HOME/.config/$(basename "$dir")"
+done
+
+# Claude: ~/.claude also holds unsyncable state (sessions, history.jsonl,
+# credentials, caches), so never link the whole directory. Link an explicit
+# allowlist instead, per file / per hook / per script / per skill, so
+# machine-local extras (e.g. work-only skills) can live alongside untracked.
+claude_src="$(realpath claude)"
+claude_dst="$HOME/.claude"
+mkdir -p "$claude_dst/hooks" "$claude_dst/bin" "$claude_dst/skills"
+
+for f in settings.json keybindings.json statusline-command.sh CLAUDE.md; do
+	[ -e "$claude_src/$f" ] && ln -sf "$claude_src/$f" "$claude_dst/$f"
+done
+
+for f in "$claude_src"/hooks/* "$claude_src"/bin/*; do
+	sub="$(basename "$(dirname "$f")")"
+	ln -sf "$f" "$claude_dst/$sub/$(basename "$f")"
+done
+
+for d in "$claude_src"/skills/*/; do
+	link_dir "${d%/}" "$claude_dst/skills/$(basename "$d")"
 done

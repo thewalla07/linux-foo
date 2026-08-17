@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+# Fire each shape of Claude Code notification through ~/.claude/hooks/notify.sh
+# so you can see what they look like without waiting for the real thing.
+#
+#   test-notify              show all cases as text (no notifications)
+#   test-notify --live       actually display them, 4s apart
+#   test-notify --live 3     display only case 3
+#   test-notify -t FILE      use a specific transcript for context extraction
+#
+# The transcript defaults to your most recently active chat, so the "body" line
+# reflects real content the way a live notification would.
+set -uo pipefail
+
+HOOK="$HOME/.claude/hooks/notify.sh"
+[ -f "$HOOK" ] || { echo "missing: $HOOK" >&2; exit 1; }
+
+live=""
+only=""
+transcript=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --live|-l) live=1 ;;
+    -t) shift; transcript="${1:-}" ;;
+    [1-9]) only="$1" ;;
+    -h|--help) /usr/bin/sed -n '2,10p' "$0"; exit 0 ;;
+    *) echo "unknown arg: $1" >&2; exit 1 ;;
+  esac
+  shift
+done
+
+# Most recently modified transcript across all projects.
+if [ -z "$transcript" ]; then
+  transcript=$(/bin/ls -t "$HOME"/.claude/projects/*/*.jsonl 2>/dev/null | /usr/bin/head -n 1)
+fi
+[ -n "$transcript" ] && [ -f "$transcript" ] || transcript=/nonexistent.jsonl
+
+# Use the working directory the session actually ran in, not the transcript's
+# own location, so the title falls back the way it would in real use.
+cwd=$(/usr/bin/tail -n 200 "$transcript" 2>/dev/null \
+      | /usr/bin/jq -Rr 'fromjson? | .cwd // empty' 2>/dev/null \
+      | /usr/bin/tail -n 1)
+[ -n "$cwd" ] || cwd="$HOME"
+echo "transcript: $transcript"
+echo "cwd:        $cwd"
+echo
+
+fire() {
+  n="$1"; desc="$2"; json="$3"
+  [ -n "$only" ] && [ "$only" != "$n" ] && return 0
+  echo "── $n. $desc"
+  if [ -n "$live" ]; then
+    printf '%s' "$json" | /bin/bash "$HOOK"
+    echo "   (displayed)"
+    [ -z "$only" ] && /bin/sleep 4
+  else
+    printf '%s' "$json" | NOTIFY_DRY_RUN=1 /bin/bash "$HOOK" | /usr/bin/sed 's/^/   /'
+  fi
+  echo
+}
+
+p() { printf '{"hook_event_name":"%s","message":"%s","notification_type":"%s","cwd":"%s","transcript_path":"%s","session_id":"test-notify"}' \
+      "$1" "$2" "$3" "$cwd" "$transcript"; }
+
+fire 1 "background agent, context declared" \
+  "$(p Notification 'claude needs your input: pick a settings file to write to' agent_needs_input)"
+fire 2 "background agent, no context (falls back to transcript)" \
+  "$(p Notification 'claude needs your input' agent_needs_input)"
+fire 3 "idle for 60s" \
+  "$(p Notification 'Claude is waiting for your input' idle_prompt)"
+fire 4 "subagent permission prompt (shows pending tool)" \
+  "$(p Notification 'agent-7 needs permission for Bash' worker_permission_prompt)"
+fire 5 "agent finished" \
+  "$(p Notification 'claude finished' agent_completed)"
+fire 6 "turn ended (Stop hook — no message field)" \
+  "$(printf '{"hook_event_name":"Stop","cwd":"%s","transcript_path":"%s","session_id":"test-notify"}' "$cwd" "$transcript")"
+fire 7 "degenerate: empty payload" '{}'
+
+if [ -z "$live" ]; then
+  echo "Nothing was displayed. Re-run with --live to see the real notifications."
+fi
