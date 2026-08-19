@@ -79,6 +79,12 @@ lsp_zero.on_attach(function(client, bufnr)
 	end, opts)
 end)
 
+-- vim.diagnostic.jump() does not open a float by default (unlike the old
+-- goto_next/goto_prev), so opt back in for ]d/[d/]]/[[
+vim.diagnostic.config({
+	jump = { float = true },
+})
+
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	ensure_installed = { "ts_ls", "rust_analyzer", "eslint", "gopls", "lua_ls", "ansiblels", "omnisharp" },
