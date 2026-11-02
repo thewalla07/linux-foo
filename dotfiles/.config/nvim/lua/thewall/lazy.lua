@@ -117,18 +117,23 @@ require("lazy").setup({
 			},
 		},
 		opts = {
+			-- oxfmt only runs in repos with an .oxfmtrc (e.g. Expenses); elsewhere the
+			-- next formatter in the list is used (stop_after_first).
 			formatters_by_ft = {
-				javascript = { "eslint_d" },
-				javascriptreact = { "eslint_d" },
-				typescript = { "eslint_d" },
-				typescriptreact = { "eslint_d" },
-				css = { "prettier" },
+				javascript = { "oxfmt", "eslint_d", stop_after_first = true },
+				javascriptreact = { "oxfmt", "eslint_d", stop_after_first = true },
+				typescript = { "oxfmt", "eslint_d", stop_after_first = true },
+				typescriptreact = { "oxfmt", "eslint_d", stop_after_first = true },
+				css = { "oxfmt", "prettier", stop_after_first = true },
 				html = { "prettier" },
-				json = { "prettier" },
-				yaml = { "prettier" },
-				markdown = { "prettier" },
+				json = { "oxfmt", "prettier", stop_after_first = true },
+				yaml = { "oxfmt", "prettier", stop_after_first = true },
+				markdown = { "oxfmt", "prettier", stop_after_first = true },
 				lua = { "stylua" },
 				sh = { "shfmt" },
+			},
+			formatters = {
+				oxfmt = { require_cwd = true },
 			},
 			default_format_opts = {
 				timeout_ms = 3000,
