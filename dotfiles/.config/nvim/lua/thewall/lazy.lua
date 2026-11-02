@@ -284,8 +284,10 @@ require("lazy").setup({
 			},
 		},
 		keys = {
-			{ "<leader>ta", "<cmd>TodoTelescope keywords=AUTHOR<cr>", desc = "Find AUTHOR comments" },
-			{ "<leader>tc", "<cmd>TodoTelescope keywords=CLAUDE<cr>", desc = "Find CLAUDE comments" },
+			-- One entry per comment, not per line; <leader>tc hides threads I've already replied to.
+			{ "<leader>ta", function() require("thewall.comment_threads").pick({ keyword = "AUTHOR" }) end, desc = "Find AUTHOR comments" },
+			{ "<leader>tc", function() require("thewall.comment_threads").pick({ keyword = "CLAUDE", open_only = true }) end, desc = "Find unanswered CLAUDE comments" },
+			{ "<leader>tC", function() require("thewall.comment_threads").pick({ keyword = "CLAUDE" }) end, desc = "Find all CLAUDE comments" },
 			{ "<leader>tm", "<cmd>TodoTelescope<cr>", desc = "Find all todo comments" },
 			{ "<leader>tt", function() author_comment(false) end, desc = "AUTHOR comment (line below)" },
 			{ "<leader>tT", function() author_comment(true) end, desc = "AUTHOR comment (line above)" },
